@@ -1,6 +1,6 @@
 {
   "name": "stylint-config-groupon",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "Stylint configuration, groupon-style",
   "license": "BSD-3-Clause",
   "main": "stylint.json",
