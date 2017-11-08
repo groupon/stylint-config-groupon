@@ -1,41 +1,51 @@
 {
-  "name": "groupon-styleguide",
-  "version": "3.2.0",
-  "private": true,
-  "scripts": {
-    "test": "eslint test/valid/eslint && coffeelint -q test/valid/coffeelint && stylint test/valid/stylint"
-  },
+  "name": "stylint-config-groupon",
+  "version": "3.2.2",
+  "description": "Stylint configuration, groupon-style",
   "license": "BSD-3-Clause",
+  "main": "stylint.json",
+  "homepage": "https://github.com/groupon/stylint-config-groupon#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/groupon/javascript"
+    "url": "https://github.com/groupon/stylint-config-groupon"
+  },
+  "bugs": {
+    "url": "https://github.com/groupon/stylint-config-groupon/issues"
+  },
+  "scripts": {
+    "test": "stylint test/valid",
+    "posttest": "nlm verify"
+  },
+  "nlm": {
+    "license": {
+      "files": [
+        "lib"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "stylint": "^1.5.7"
+  },
+  "stylintrc": "stylint.json",
+  "dependencies": {},
+  "devDependencies": {
+    "nlm": "^3.0.0",
+    "stylint": "^1.5.7"
   },
   "author": {
     "name": "Jan Krems",
     "email": "jan.krems@groupon.com"
   },
-  "dependencies": {
-    "coffeelint-config-groupon": "file:./packages/coffeelint-config-groupon",
-    "coffeelint-forbidden-keywords": "~0.1.1",
-    "coffeelint-no-mocha-only": "^1.0.0",
-    "coffeelint-use-strict": "^1.0.0",
-    "coffeescope2": "~0.4.2",
-    "eslint-config-groupon": "file:./packages/eslint-config-groupon",
-    "eslint-config-groupon-es5": "file:./packages/eslint-config-groupon-es5",
-    "eslint-config-groupon-node4": "file:./packages/eslint-config-groupon-node4",
-    "eslint-config-groupon-node6": "file:./packages/eslint-config-groupon-node6",
-    "eslint-config-groupon-react": "file:./packages/eslint-config-groupon-react",
-    "eslint-plugin-jsx-a11y": "^1.0.2",
-    "eslint-plugin-import": "^1.7.0",
-    "eslint-plugin-node": "^2.0.0",
-    "eslint-plugin-react": "^5.0.1",
-    "stylint-config-groupon": "file:./packages/stylint-config-groupon"
-  },
-  "devDependencies": {
-    "coffee-script": "^1.10.0",
-    "coffeelint": "^1.15.7",
-    "eslint": "^2.9.0",
-    "stylint": "^1.5.7",
-    "lerna": "2.0.0-beta.30"
+  "keywords": [
+    "stylint",
+    "stylus",
+    "config"
+  ],
+  "files": [
+    "*.js",
+    "*.json"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }
