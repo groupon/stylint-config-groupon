@@ -1,41 +1,42 @@
 {
-  "name": "groupon-styleguide",
-  "version": "3.2.0",
-  "private": true,
+  "name": "stylint-config-groupon",
+  "version": "3.2.2",
+  "description": "Stylint configuration, groupon-style",
+  "main": "stylint.json",
   "scripts": {
-    "test": "eslint test/valid/eslint && coffeelint -q test/valid/coffeelint && stylint test/valid/stylint"
+    "test": "stylint test/valid"
   },
-  "license": "BSD-3-Clause",
+  "files": [
+    "*.js",
+    "*.json"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/groupon/javascript"
+    "url": "git+ssh://git@github.com/groupon/javascript.git"
   },
+  "stylintrc": "stylint.json",
+  "keywords": [
+    "stylint",
+    "stylus",
+    "config"
+  ],
   "author": {
     "name": "Jan Krems",
     "email": "jan.krems@groupon.com"
   },
-  "dependencies": {
-    "coffeelint-config-groupon": "file:./packages/coffeelint-config-groupon",
-    "coffeelint-forbidden-keywords": "~0.1.1",
-    "coffeelint-no-mocha-only": "^1.0.0",
-    "coffeelint-use-strict": "^1.0.0",
-    "coffeescope2": "~0.4.2",
-    "eslint-config-groupon": "file:./packages/eslint-config-groupon",
-    "eslint-config-groupon-es5": "file:./packages/eslint-config-groupon-es5",
-    "eslint-config-groupon-node4": "file:./packages/eslint-config-groupon-node4",
-    "eslint-config-groupon-node6": "file:./packages/eslint-config-groupon-node6",
-    "eslint-config-groupon-react": "file:./packages/eslint-config-groupon-react",
-    "eslint-plugin-jsx-a11y": "^1.0.2",
-    "eslint-plugin-import": "^1.7.0",
-    "eslint-plugin-node": "^2.0.0",
-    "eslint-plugin-react": "^5.0.1",
-    "stylint-config-groupon": "file:./packages/stylint-config-groupon"
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/groupon/javascript/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "homepage": "https://github.com/groupon/javascript#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "stylint": "^1.5.7"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0",
-    "coffeelint": "^1.15.7",
-    "eslint": "^2.9.0",
-    "stylint": "^1.5.7",
-    "lerna": "2.0.0-beta.30"
+    "stylint": "^1.5.7"
   }
 }

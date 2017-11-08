@@ -1,120 +1,163 @@
-# JavaScript at Groupon
+# `stylint-config-groupon`
 
-This repository contains tools & guidelines for using JavaScript at Groupon.
-It represents a best effort to capture the current practices.
+A `stylint` config for Groupon's way of writing stylesheets
+using [`stylus`][stylus].
 
-## Writing NPM Packages
+[stylus]: http://learnboost.github.io/stylus/
 
-### ES5 or ES2015?
+## Philosophy
 
-The general rule is:
-When writing code that is distributed via npm, we use ES5 code.
-All libraries should use `groupon-es5`.
-This ensures the code works consistently across all environments
-and doesn't require any compilation.
+Whenever possible favor a simple solution over a smart one.
+The harder it is to work with the framework,
+the more likely people will be to work around it instead.
+The grosser the hack,
+the more difficult it will be to roll back or standardize.
+Consider specificity a smell.
 
-There are exceptions when libraries depend on features like generators
-that don't have a real ES5 equivalent.
-But in most cases it's possible to isolate that code
-into a separate library without polluting unrelated pieces of logic.
+### Browser Support
 
-For client-side code using ES2015 and [proposed upcoming features](https://github.com/tc39/ecma262#ecmascript) like object spread is encouraged.
-The default lint style should be `groupon` or `groupon-react` when using React.
+IE 9 is the limbo stick to clear but [be pragmatic][pragmatic].
+Rounded corners are not worth a 40kb polyfill.
 
-For server-side code running on node 4.x/6.x or higher,
-we try to restrict ourselves to the features that are natively supported.
-This simplifies tooling and improves startup times.
-The default lint style should be `groupon-node4`/`groupon-node6`.
+[pragmatic]: http://dowebsitesneedtolookexactlythesameineverybrowser.com/
 
-### Versioning and Publishing
+## Styleguide
 
-We use [`nlm`](https://github.com/groupon/nlm) to manage our libaries.
-This ensures that:
+### Beyond Formatting
 
-1. Every library has a usable `CHANGELOG.md` file as part of its git history.
-1. Releases are never tied to a single person.
-1. We can easily share best practices across projects.
+* Write your styles to have as low a specificity as possible/reasonable.
+  Nobody should have to struggle to come up with a chain of selectors that will override yours.
+* Don't write your styles to be dependent on markup structures.
+  Use descriptive class names liberally to apply styles to elements directly
+  rather than generic class names whose styles changes based on their parent markup.
+* If a variable exists for something, use it!
+  Hardcoding hex values or rgb/rgba/hsl/hsla declarations into your files
+  when there's already a variable for them only causes headaches down the road.
+* Prefer [`nib`'s][nib] mixins & browser prefixing to homegrown solutions.
 
-## Groupon JavaScript Style Guide
+[nib]: https://github.com/tj/nib
 
-Fortunately there already is a great and well-documented style guide for JavaScript over at [airbnb/javascript](https://github.com/airbnb/javascript).
-The short answer is: We stick to that.
-There is no difference between the airbnb and the Groupon rules for anything but legacy/ES5 mode.
+### Formatting
 
-### The Longer Answer
+#### Spacing & Blocks
 
-#### Generally
+Use 2 spaces for indentation, 1 space after operators, and empty lines between rules.
+Omit the curly braces around blocks and semicolons.
+Keep the colons after properties.
+Use `//` for comments.
 
-##### `no-underscore-dangle`
-
-Opinions on what "private state" means and how to use it vary.
-The [Airbnb guide](https://github.com/airbnb/javascript#naming--leading-underscore) comes down on the side of "if something can be inspected, it's not truly private".
-We explicitly allow and even encourage the use of underscored properties for private state.
-
-1. It's hard to define "can be inspected" in JavaScript, especially in node (there's always `vm.runInDebugContext`).
-2. There's immense value in having private state inspectable while debugging certain issues.
-
-We trust that users of libraries are aware that underscored properties are never part of the official interface
-and changes to underscored properties are not considered breaking changes.
-
-Using underscored properties outside of methods (e.g. not on `this`) is still considered an error.
-
-##### Short Identifiers
-
-The airbnb config allows identifiers of any length.
-This doesn't mean we encourage a bunch of `x` and `y`s over meaningful names.
-But there a situations where short identifiers are perfectly reasonable.
-
-Examples:
-* Mathematical functions like `(a, b) => a + b`
-* Known shorthands like `_` for lodash or underscore (especially in legacy mode where destructuring isn't available)
-
-When writing or reviewing code the rule of thumb is "clarity over brevity".
-But a linter isn't in the best position to judge clarity.
-
-#### `groupon-es5`
-
-##### Strict Statements
-
-We assume ES5 mode is used to lint code that will be running on node.js without any compilation steps.
-Which means we enforce a top-level `'use strict'` statement.
-
-##### Param reassignment is allowed
-
-Because ES5 has no way to specify default parameters,
-we allow param reassignment.
-The following is allowed:
-
-```js
-function f(options) {
-  options = options || {};
-}
-```
-
-This should be limited to default parameters.
-The following will pass the linter but should be avoided:
-
-```js
-function f(filename) {
-  filename = path.resolve(process.cwd(), filename);
-}
-```
-
-##### `var` not forced to top
-
-We encourage keeping declaration and initialization close to each other.
-Which means the following is allowed:
-
-```js
-function f() {
-  var x = calcX();
-  if (x <= 0) {
-    return 0;
+```styl
+// Bad
+.container color: $body-background-color
+a
+  color $color-link
+  //A comment
+  text-decoration: none
+  &:hover {
+    text-decoration: underline
   }
-  var y = calcY();
-}
+
+// Good
+.container
+  color: $body-background-color
+
+a
+  color: $color-link
+  // A comment
+  text-decoration: none
+
+  &:hover
+    text-decoration: underline
 ```
 
-#### `coffeescript`
+#### Naming Conventions
 
-We include a single coffeelint config module - it allows globals appropriate for ES6, Mocha, and Node.JS coding.
+Use hyphens & lowercase to identify elements.
+No underscores or camelcase.
+
+#### `prefixVarsWithDollar`
+
+To make it easier to distinguish variables from values,
+prefix them with a dollar sign.
+
+```styl
+// Bad
+hide = transparent
+
+.thing
+  background-color: hide
+
+// Good
+$hide = transparent
+
+.thing
+  background-color: $hide
+```
+
+#### Units
+
+Omit units for zero-values.
+Avoid confusing shorthand properties when order is significant.
+
+```styl
+// Bad
+.container
+  margin: 10px 0px
+  // Quick, which dimension is repeated?
+  padding: 10px 5px 15px
+
+// Good
+.container
+  margin: 10px 0
+  border-radius: 10px 5px 15px 5px
+```
+
+#### `quotePref`
+
+Because it's what we do for JavaScript,
+we prefer single quotes for stylus as well.
+
+```styl
+// Bad
+.container
+  content: "x"
+
+// Good
+.container
+  content: 'x'
+```
+
+#### `duplicates`/`globalDupe`
+
+It's a good practice to only define a selector/property combination once per project
+and to use `@import` if it's needed in different files.
+
+This rule may be broken to provide fallbacks:
+
+```styl
+// Bad
+.some-class
+  width: 920px
+  width: 100%
+
+// Good
+.some-class
+  width: 95% // old browser that dont know the calc property (I know this is a guess)
+  width: calc(100% - 10px) // modern browsers
+```
+
+#### `noImportant`
+
+Avoid `!important` at all costs.
+See: [How style precendence works][specificity].
+
+[specificity]: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
+
+#### `@css`
+
+Some CSS features like certain media queries aren't handled well by stylus.
+In those cases CSS can be inlined via `@css` blocks or put into separate `.css` files.
+You should use `@import` and external CSS files.
+
+The reason for this rule isn't great - stylint just can't handle inline `@css` blocks properly.
+The good news is that you should rarely need to drop down to raw CSS.
