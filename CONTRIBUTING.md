@@ -11,7 +11,7 @@ feel free to [open an issue](#reporting-issues)
 ### Reporting Issues
 
 If you find any mistakes in the docs or a bug in the code,
-please [open an issue in Github](https://github.com/groupon/javascript/issues/new) so we can look into it.
+please [open an issue in Github](https://github.com/groupon/stylint-config-groupon/issues/new) so we can look into it.
 You can also [create a PR](#contributing-code) fixing it yourself, or course.
 
 If you report a bug, please follow these guidelines:

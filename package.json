@@ -2,41 +2,50 @@
   "name": "stylint-config-groupon",
   "version": "3.2.2",
   "description": "Stylint configuration, groupon-style",
+  "license": "BSD-3-Clause",
   "main": "stylint.json",
-  "scripts": {
-    "test": "stylint test/valid"
-  },
-  "files": [
-    "*.js",
-    "*.json"
-  ],
+  "homepage": "https://github.com/groupon/stylint-config-groupon#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/groupon/javascript.git"
+    "url": "https://github.com/groupon/stylint-config-groupon"
+  },
+  "bugs": {
+    "url": "https://github.com/groupon/stylint-config-groupon/issues"
+  },
+  "scripts": {
+    "test": "stylint test/valid",
+    "posttest": "nlm verify"
+  },
+  "nlm": {
+    "license": {
+      "files": [
+        "lib"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "stylint": "^1.5.7"
   },
   "stylintrc": "stylint.json",
+  "dependencies": {},
+  "devDependencies": {
+    "nlm": "^3.0.0",
+    "stylint": "^1.5.7"
+  },
+  "author": {
+    "name": "Jan Krems",
+    "email": "jan.krems@groupon.com"
+  },
   "keywords": [
     "stylint",
     "stylus",
     "config"
   ],
-  "author": {
-    "name": "Jan Krems",
-    "email": "jan.krems@groupon.com"
-  },
-  "license": "BSD-3-Clause",
-  "bugs": {
-    "url": "https://github.com/groupon/javascript/issues"
-  },
+  "files": [
+    "*.js",
+    "*.json"
+  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "homepage": "https://github.com/groupon/javascript#readme",
-  "dependencies": {},
-  "peerDependencies": {
-    "stylint": "^1.5.7"
-  },
-  "devDependencies": {
-    "stylint": "^1.5.7"
   }
 }
